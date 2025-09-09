@@ -274,3 +274,4 @@ historyButton.addEventListener("click", async () => {
     alert("Could not load history.");
   }
 });
+
