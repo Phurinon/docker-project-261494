@@ -16,6 +16,7 @@ const historyButton = document.getElementById("history-btn");
 const historyDiv = document.getElementById("history");
 const historyList = document.getElementById("history-list");
 const usernameInput = document.getElementById("username");
+const deleteButton = document.getElementById("delete-btn")
 
 // Character sets
 const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -183,6 +184,7 @@ saveButton.addEventListener("click", async () => {
 });
 
 // view saved passwords
+// view saved passwords
 historyButton.addEventListener("click", async () => {
   try {
     const res = await fetch("http://localhost:3000/api/password/list");
@@ -192,6 +194,33 @@ historyButton.addEventListener("click", async () => {
     data.forEach((item) => {
       const li = document.createElement("li");
       li.textContent = `${item.user}: ${item.password} (${new Date(item.createdAt).toLocaleString()})`;
+
+      // ปุ่มลบ
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "Delete";
+      delBtn.style.marginLeft = "10px";
+      delBtn.addEventListener("click", async () => {
+        if (!confirm("Are you sure you want to delete this password?")) return;
+
+        try {
+          const res = await fetch(`http://localhost:3000/api/password/delete/${item.id}`, {
+            method: "DELETE",
+          });
+          const result = await res.json();
+
+          if (res.ok) {
+            alert("Password deleted");
+            li.remove(); // ลบออกจาก DOM ด้วย
+          } else {
+            alert("Error: " + (result.error || "Could not delete"));
+          }
+        } catch (err) {
+          console.error("Delete failed:", err);
+          alert("Failed to connect to server.");
+        }
+      });
+
+      li.appendChild(delBtn);
       historyList.appendChild(li);
     });
 
@@ -201,3 +230,4 @@ historyButton.addEventListener("click", async () => {
     alert("Could not load history.");
   }
 });
+
