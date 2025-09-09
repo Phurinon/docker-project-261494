@@ -21,6 +21,17 @@ app.post('/api/password/save', async (req, res) => {
   }
 });
 
+app.delete('/api/password/delete/:id', async (req, res) => {
+  try{
+    const { id } = req.params
+    const result = await Password.destroy({ where: {id}})
+    res.json({message: "Deleted sucessfully"})
+  }catch(err){
+    console.error("Delete error:", err)
+    res.status(500).json({ error: "Failed to delete password"})
+  }
+})
+
 // get history
 app.get('/api/password/list', async (req, res) => {
   try {
