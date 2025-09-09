@@ -150,6 +150,17 @@ function showCopySuccess() {
   }, 1500);
 }
 
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2000); // แสดง 2 วินาทีแล้วหายไป
+}
+
+
 // save password to backend
 saveButton.addEventListener("click", async () => {
   const password = passwordInput.value;
@@ -193,12 +204,40 @@ historyButton.addEventListener("click", async () => {
     historyList.innerHTML = "";
     data.forEach((item) => {
       const li = document.createElement("li");
-      li.textContent = `${item.user}: ${item.password} (${new Date(item.createdAt).toLocaleString()})`;
+      li.classList.add("history-item");
 
-      // ปุ่มลบ
-      const delBtn = document.createElement("button");
-      delBtn.textContent = "Delete";
-      delBtn.style.marginLeft = "10px";
+      // user
+      const userSpan = document.createElement("span");
+      userSpan.classList.add("history-user");
+      userSpan.textContent = item.user;
+
+      // password
+      const passSpan = document.createElement("span");
+      passSpan.classList.add("history-pass");
+      passSpan.textContent = item.password;
+
+      // time
+      const timeSpan = document.createElement("span");
+      timeSpan.classList.add("history-time");
+      timeSpan.textContent = new Date(item.createdAt).toLocaleString();
+
+      const copyBtn = document.createElement("i");
+      copyBtn.classList.add("fas", "fa-copy", "copy-icon");
+      copyBtn.title = "Copy password";
+      copyBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(item.password);
+          showToast("Password copied!");
+        } catch (err) {
+          console.error("Copy failed:", err);
+          alert("Failed to copy password.");
+        }
+      });
+
+      // delete icon
+      const delBtn = document.createElement("i");
+      delBtn.classList.add("fas", "fa-trash", "delete-icon");
+      delBtn.title = "Delete this password";
       delBtn.addEventListener("click", async () => {
         if (!confirm("Are you sure you want to delete this password?")) return;
 
@@ -210,7 +249,7 @@ historyButton.addEventListener("click", async () => {
 
           if (res.ok) {
             alert("Password deleted");
-            li.remove(); // ลบออกจาก DOM ด้วย
+            li.remove();
           } else {
             alert("Error: " + (result.error || "Could not delete"));
           }
@@ -220,7 +259,12 @@ historyButton.addEventListener("click", async () => {
         }
       });
 
+      li.appendChild(userSpan);
+      li.appendChild(passSpan);
+      li.appendChild(timeSpan);
+      li.appendChild(copyBtn);
       li.appendChild(delBtn);
+
       historyList.appendChild(li);
     });
 
@@ -230,4 +274,3 @@ historyButton.addEventListener("click", async () => {
     alert("Could not load history.");
   }
 });
-

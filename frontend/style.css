@@ -269,3 +269,118 @@ button:active {
   border-radius: 5px;
   font-family: monospace;
 }
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #fff; /* พื้นหลังขาวดูสะอาด */
+  border: 1px solid #ccc; /* เส้นขอบบาง ๆ */
+  border-radius: 8px; /* มุมโค้งมน */
+  padding: 10px 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* เพิ่มมิติ */
+}
+
+.input-wrapper i {
+  color: #666; /* ไอคอนสีเทาอ่อน */
+  margin-right: 8px;
+}
+
+.input-wrapper input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  padding: 6px 0;
+  background: transparent;
+}
+
+.input-wrapper input:focus {
+  box-shadow: inset 0 0 4px rgba(43, 88, 118, 0.3); /* เงาด้านในตอน focus */
+  border-radius: 6px;
+}
+
+#history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  font-size: 14px;
+}
+
+.history-user {
+  font-weight: 600;
+  color: var(--primary-color);
+  flex: 1;
+}
+
+.history-pass {
+  font-family: monospace;
+  background: #edf2f7;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin: 0 10px;
+  flex: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.history-time {
+  font-size: 12px;
+  color: #718096;
+  flex: 1;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.delete-icon {
+  margin-left: 8px;
+  color: #e53e3e;
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.delete-icon:hover {
+  color: #c53030;
+}
+
+.copy-icon {
+  margin-left: 8px;
+  color: #4a5568;
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+#toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px); /* เริ่มต้นขยับขึ้นไป */
+  background: #2b5876;  /* พื้นหลังน้ำเงิน */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none; /* ไม่บังการคลิก */
+  z-index: 9999;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0); /* เลื่อนลงมาแสดง */
+}
+
