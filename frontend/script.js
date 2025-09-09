@@ -195,7 +195,6 @@ saveButton.addEventListener("click", async () => {
 });
 
 // view saved passwords
-// view saved passwords
 historyButton.addEventListener("click", async () => {
   try {
     const res = await fetch("http://localhost:3000/api/password/list");
@@ -216,11 +215,7 @@ historyButton.addEventListener("click", async () => {
       passSpan.classList.add("history-pass");
       passSpan.textContent = item.password;
 
-      // time
-      const timeSpan = document.createElement("span");
-      timeSpan.classList.add("history-time");
-      timeSpan.textContent = new Date(item.createdAt).toLocaleString();
-
+      // copy icon
       const copyBtn = document.createElement("i");
       copyBtn.classList.add("fas", "fa-copy", "copy-icon");
       copyBtn.title = "Copy password";
@@ -261,7 +256,6 @@ historyButton.addEventListener("click", async () => {
 
       li.appendChild(userSpan);
       li.appendChild(passSpan);
-      li.appendChild(timeSpan);
       li.appendChild(copyBtn);
       li.appendChild(delBtn);
 
@@ -274,4 +268,5 @@ historyButton.addEventListener("click", async () => {
     alert("Could not load history.");
   }
 });
+
 
